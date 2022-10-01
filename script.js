@@ -1,15 +1,18 @@
-let number = 5;
-const leftBorderWidth = 1;
-number =10;
-console.log(4/0);
-console.log("string" *9);
-const ka="3";
-
-const obj = {
-  name: "John",
-  age: 25,
-  isMarried: false,
+const numberOfFilms = +prompt("How match you wathed movies");
+const personalDataMovieBase = {
+  count: numberOfFilms,
+  movies: {},
+  actors: {},
+  genres: [],
+  privat: false
 };
 
-console.log(obj.name);
-console.log(obj["name"]);
+const a = prompt("Один из последних фильмов", "");
+const b = prompt("На сколько оцените его?", "");
+const c = prompt("Один из последних фильмов", "");
+const d = prompt("На сколько оцените его?", "");
+
+personalDataMovieBase.movies[a] = b;
+personalDataMovieBase.movies[c] = d;
+
+console.log(personalDataMovieBase);
