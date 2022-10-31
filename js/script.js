@@ -86,13 +86,13 @@ function updateClock() {
   if (t.total<=0){
     clearInterval(timeInterval);
   }
-
 }
-
 }
-
-
 setClock(".timer", deadline);
+
+//---------------MODAL WINDOW---------------------
+
+
 
 // END SCRIPT
 });
