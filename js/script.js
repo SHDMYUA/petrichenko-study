@@ -73,7 +73,7 @@ const timer = document.querySelector(selector),
       seconds = document.querySelector("#seconds"),
       timeInterval = setInterval(updateClock, 1000);
 
-      updateClock(); // убераем моргание (изменение отображения часов с дефолтных на текущее) верстки при обновлении страницы //
+      updateClock(); // убераем моргание верстки при обновлении страницы
 
 function updateClock() {
   const t = getTimeRemaning(endtime);
@@ -92,7 +92,23 @@ setClock(".timer", deadline);
 
 //---------------MODAL WINDOW---------------------
 
+const modalTriggers = document.querySelectorAll('[data-modal]'),
+      modal = document.querySelector('.modal'),
+      closeModalBtn = document.querySelector('[data-modal-close]');
 
+modalTriggers.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    modal.classList.add('show');
+    modal.classList.remove('hide');
+    document.body.style.overflow = "hidden";
+  });
+});
+
+closeModalBtn.addEventListener('click', () => {
+  modal.classList.add('hide');
+  modal.classList.remove('show');
+    document.body.style.overflow = "";
+});
 
 // END SCRIPT
 });
