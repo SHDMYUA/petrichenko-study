@@ -100,14 +100,30 @@ modalTriggers.forEach((btn) => {
   btn.addEventListener('click', () => {
     modal.classList.add('show');
     modal.classList.remove('hide');
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = "hidden"; 
   });
 });
 
-closeModalBtn.addEventListener('click', () => {
+function closeModal () {
   modal.classList.add('hide');
   modal.classList.remove('show');
-    document.body.style.overflow = "";
+  document.body.style.overflow = "";
+}
+
+closeModalBtn.addEventListener('click', closeModal);
+
+// close modal by click over modal window and ESC
+modal.addEventListener('click', (event) => {
+if (event.target === modal) {
+  closeModal();
+}
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.code === "Escape" && modal.classList.contains('show')) {
+    closeModal();
+  }
+
 });
 
 // END SCRIPT
