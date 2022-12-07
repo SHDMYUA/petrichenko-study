@@ -129,17 +129,83 @@ document.addEventListener('keydown', (event) => {
 });
 
 // add features open modal window
-const modalTimerId = setTimeout (openModal, 5000);
+// const modalTimerId = setTimeout (openModal, 5000);
 
 // show modal when user scrolled to end of window
 function showModalByScroll() {
-  if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+  const documentHeight = document.documentElement.scrollHeight;
+  if (window.pageYOffset + document.documentElement.clientHeight >= documentHeight) {
     openModal();
     window.removeEventListener('scroll', showModalByScroll);
   }
 }
 
 window.addEventListener('scroll', showModalByScroll);
+// Add Classes for cards
+class MenuCard {
+    constructor (src, alt, title, descr, price, parentSelector){
+      this.src = src;
+      this.alt = alt;
+      this.title = title;
+      this.descr = descr;
+      this.price = price;
+      this.parent = document.querySelector(parentSelector);
+      this.transfer = 27;
+      this.changeToUAH();
+    }
+    changeToUAH(){
+    this.price =this.price * this.transfer;
+    }
+
+    render(){
+      const elem = document.createElement("div");
+      elem.innerHTML = `
+      <div class="menu__item">
+            <img src=${this.src} alt=${this.alt} />
+            <h3 class="menu__item-subtitle">${this.title}</h3>
+            <div class="menu__item-descr">
+              ${this.descr}
+            </div>
+            <div class="menu__item-divider"></div>
+            <div class="menu__item-price">
+              <div class="menu__item-cost">Ціна:</div>
+              <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+            </div>
+      </div>
+      `;
+      this.parent.append(elem);
+    }
+}
+
+new MenuCard(
+  "img/tabs/vegy.jpg",
+  "vegy",
+  'Меню "Фітнес"',
+  'Меню "Фітнес" – це новий підхід до приготування страв: більше  свіжих овочів та фруктів. Продукт активних та здорових людей. Це абсолютно новий продукт з оптимальною ціною та високою якістю!',
+  9,
+  ".menu .container"
+
+).render();
+
+new MenuCard(
+  "img/tabs/elite.jpg",
+  "elite",
+  'Меню “Преміум',
+  'У меню “Преміум” ми використовуємо не тільки гарний дизайн упаковки, а й якісне виконання страв. Червона риба, морепродукти, фрукти - ресторанне меню без походу до ресторану!',
+  20,
+  ".menu .container"
+
+).render();
+
+new MenuCard(
+  "img/tabs/post.jpg",
+  "post",
+  'Меню "Пісне"',
+  'Меню "Пісне" - це ретельний підбір інгредієнтів: повне відсутність  продуктів тваринного походження, молоко з мигдалю, вівса або кокоса, правильна кількість білків за рахунок тофу та вегетаріанських стейків.',
+  25,
+  ".menu .container"
+
+).render();
 
 // END SCRIPT
 });
