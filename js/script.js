@@ -1,32 +1,32 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const tabs = document.querySelectorAll(".tabheader__item"),
-    tabContent = document.querySelectorAll(".tabcontent"),
-    tabsParent = document.querySelector(".tabheader__items");
+document.addEventListener('DOMContentLoaded', () => {
+  const tabs = document.querySelectorAll('.tabheader__item'),
+    tabContent = document.querySelectorAll('.tabcontent'),
+    tabsParent = document.querySelector('.tabheader__items');
 
   function hideTabContent() {
-    tabContent.forEach((item) => {
-      item.classList.add("hide");
-      item.classList.remove("show", "fade");
+    tabContent.forEach(item => {
+      item.classList.add('hide');
+      item.classList.remove('show', 'fade');
     });
 
-    tabs.forEach((item) => {
-      item.classList.remove("tabheader__item_active");
+    tabs.forEach(item => {
+      item.classList.remove('tabheader__item_active');
     });
   }
 
   function showTabContent(i = 0) {
-    tabContent[i].classList.add("show", "fade");
-    tabContent[i].classList.remove("hide");
-    tabs[i].classList.add("tabheader__item_active");
+    tabContent[i].classList.add('show', 'fade');
+    tabContent[i].classList.remove('hide');
+    tabs[i].classList.add('tabheader__item_active');
   }
 
   hideTabContent();
   showTabContent();
 
-  tabsParent.addEventListener("click", (e) => {
+  tabsParent.addEventListener('click', e => {
     const target = e.target;
 
-    if (target && target.classList.contains("tabheader__item")) {
+    if (target && target.classList.contains('tabheader__item')) {
       tabs.forEach((item, i) => {
         if (target == item) {
           hideTabContent();
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //--------------------------TIMER------------------------------------
 
-  const deadline = "2022-12-31";
+  const deadline = '2022-12-31';
 
   function getTimeRemaning(endtime) {
     const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -67,10 +67,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function setClock(selector, endtime) {
     const timer = document.querySelector(selector),
-      days = document.querySelector("#days"),
-      hours = document.querySelector("#hours"),
-      minutes = document.querySelector("#minutes"),
-      seconds = document.querySelector("#seconds"),
+      days = document.querySelector('#days'),
+      hours = document.querySelector('#hours'),
+      minutes = document.querySelector('#minutes'),
+      seconds = document.querySelector('#seconds'),
       timeInterval = setInterval(updateClock, 1000);
 
     updateClock(); // убераем моргание верстки при обновлении страницы
@@ -88,45 +88,45 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   }
-  setClock(".timer", deadline);
+  setClock('.timer', deadline);
 
   //---------------MODAL WINDOW---------------------
 
-  const modalTriggers = document.querySelectorAll("[data-modal]"),
-    modal = document.querySelector(".modal");
+  const modalTriggers = document.querySelectorAll('[data-modal]'),
+    modal = document.querySelector('.modal');
 
   // add features open modal window
   const modalTimerId = setTimeout(openModal, 50000);
 
   function openModal() {
-    modal.classList.add("show");
-    modal.classList.remove("hide");
-    document.body.style.overflow = "hidden";
+    modal.classList.add('show');
+    modal.classList.remove('hide');
+    document.body.style.overflow = 'hidden';
     clearInterval(modalTimerId);
   }
 
-  modalTriggers.forEach((btn) => {
-    btn.addEventListener("click", openModal);
+  modalTriggers.forEach(btn => {
+    btn.addEventListener('click', openModal);
   });
 
   function closeModal() {
-    modal.classList.add("hide");
-    modal.classList.remove("show");
-    document.body.style.overflow = "";
+    modal.classList.add('hide');
+    modal.classList.remove('show');
+    document.body.style.overflow = '';
   }
 
   // close modal by click over modal window and ESC
-  modal.addEventListener("click", (event) => {
+  modal.addEventListener('click', event => {
     if (
       event.target === modal ||
-      event.target.getAttribute("data-close") == ""
+      event.target.getAttribute('data-close') == ''
     ) {
       closeModal();
     }
   });
 
-  document.addEventListener("keydown", (event) => {
-    if (event.code === "Escape" && modal.classList.contains("show")) {
+  document.addEventListener('keydown', event => {
+    if (event.code === 'Escape' && modal.classList.contains('show')) {
       closeModal();
     }
   });
@@ -139,11 +139,11 @@ document.addEventListener("DOMContentLoaded", () => {
       documentHeight
     ) {
       openModal();
-      window.removeEventListener("scroll", showModalByScroll);
+      window.removeEventListener('scroll', showModalByScroll);
     }
   }
 
-  window.addEventListener("scroll", showModalByScroll);
+  window.addEventListener('scroll', showModalByScroll);
 
   // Add Classes for cards
   class MenuCard {
@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     render() {
-      const elem = document.createElement("div");
+      const elem = document.createElement('div');
       elem.innerHTML = `
       <div class="menu__item">
             <img src=${this.src} alt=${this.alt} />
@@ -182,63 +182,63 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   new MenuCard(
-    "img/tabs/vegy.jpg",
-    "vegy",
+    'img/tabs/vegy.jpg',
+    'vegy',
     'Меню "Фітнес"',
     'Меню "Фітнес" – це новий підхід до приготування страв: більше  свіжих овочів та фруктів. Продукт активних та здорових людей. Це абсолютно новий продукт з оптимальною ціною та високою якістю!',
     9,
-    ".menu .container"
+    '.menu .container'
   ).render();
 
   new MenuCard(
-    "img/tabs/elite.jpg",
-    "elite",
-    "Меню “Преміум",
-    "У меню “Преміум” ми використовуємо не тільки гарний дизайн упаковки, а й якісне виконання страв. Червона риба, морепродукти, фрукти - ресторанне меню без походу до ресторану!",
+    'img/tabs/elite.jpg',
+    'elite',
+    'Меню “Преміум',
+    'У меню “Преміум” ми використовуємо не тільки гарний дизайн упаковки, а й якісне виконання страв. Червона риба, морепродукти, фрукти - ресторанне меню без походу до ресторану!',
     20,
-    ".menu .container"
+    '.menu .container'
   ).render();
 
   new MenuCard(
-    "img/tabs/post.jpg",
-    "post",
+    'img/tabs/post.jpg',
+    'post',
     'Меню "Пісне"',
     'Меню "Пісне" - це ретельний підбір інгредієнтів: повне відсутність  продуктів тваринного походження, молоко з мигдалю, вівса або кокоса, правильна кількість білків за рахунок тофу та вегетаріанських стейків.',
     25,
-    ".menu .container"
+    '.menu .container'
   ).render();
 
   //Forms
 
-  const forms = document.querySelectorAll("form");
+  const forms = document.querySelectorAll('form');
 
-  forms.forEach((item) => {
+  forms.forEach(item => {
     postData(item);
   });
 
   const message = {
-    loading: "img/form/spinner.svg",
-    succses: "We will call to you",
-    failure: "Somting going wrong",
+    loading: 'img/form/spinner.svg',
+    succses: 'We will call to you',
+    failure: 'Somting going wrong',
   };
 
   function postData(form) {
-    form.addEventListener("submit", (e) => {
+    form.addEventListener('submit', e => {
       e.preventDefault();
 
-      const statusMessage = document.createElement("img");
+      const statusMessage = document.createElement('img');
       statusMessage.src = message.loading;
       statusMessage.style.cssText = `
       display: block;
       margin: 0 auto;
       `;
 
-      form.insertAdjacentElement("afterend", statusMessage);
+      form.insertAdjacentElement('afterend', statusMessage);
 
       const request = new XMLHttpRequest();
-      request.open("POST", "server.php");
+      request.open('POST', 'server.php');
 
-      request.setRequestHeader("Content-type", "application/json");
+      request.setRequestHeader('Content-type', 'application/json');
       const formData = new FormData(form);
 
       const object = {};
@@ -250,7 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // send to server JSON
       request.send(json);
       //add listener to status response of form for output message for user
-      request.addEventListener("load", () => {
+      request.addEventListener('load', () => {
         if (request.status === 200) {
           console.log(request.response);
           showThanksModal(message.succses);
@@ -258,30 +258,31 @@ document.addEventListener("DOMContentLoaded", () => {
           statusMessage.remove();
         } else {
           showThanksModal(message.failure);
+          statusMessage.remove();
         }
       });
     });
   }
 
   function showThanksModal(message) {
-    const prevModalDialog = document.querySelector(".modal__dialog");
+    const prevModalDialog = document.querySelector('.modal__dialog');
 
-    prevModalDialog.classList.add("hide");
+    prevModalDialog.classList.add('hide');
     openModal();
 
-    const thanksModal = document.createElement("div");
-    thanksModal.classList.add("modal__dialog");
+    const thanksModal = document.createElement('div');
+    thanksModal.classList.add('modal__dialog');
     thanksModal.innerHTML = `
       <div class ="modal__content">
           <div class = "modal__close" data-close>&times;</div>
           <div class = "modal__title">${message}</div>
       </div>
     `;
-    document.querySelector(".modal").append(thanksModal);
+    document.querySelector('.modal').append(thanksModal);
     setTimeout(() => {
       thanksModal.remove();
-      prevModalDialog.classList.add("show");
-      prevModalDialog.classList.remove("hide");
+      prevModalDialog.classList.add('show');
+      prevModalDialog.classList.remove('hide');
       closeModal();
     }, 4000);
   }
