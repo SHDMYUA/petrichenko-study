@@ -92,9 +92,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //---------------MODAL WINDOW---------------------
 
-const modalTriggers = document.querySelectorAll('[data-modal]'),
-      modal = document.querySelector('.modal'),
-      closeModalBtn = document.querySelector('[data-modal-close]');
+  const modalTriggers = document.querySelectorAll("[data-modal]"),
+    modal = document.querySelector(".modal");
+
+  // add features open modal window
+  const modalTimerId = setTimeout(openModal, 50000);
 
   function openModal() {
     modal.classList.add("show");
@@ -107,20 +109,21 @@ const modalTriggers = document.querySelectorAll('[data-modal]'),
     btn.addEventListener("click", openModal);
   });
 
-function closeModal () {
-  modal.classList.add('hide');
-  modal.classList.remove('show');
-  document.body.style.overflow = "";
-}
+  function closeModal() {
+    modal.classList.add("hide");
+    modal.classList.remove("show");
+    document.body.style.overflow = "";
+  }
 
-closeModalBtn.addEventListener('click', closeModal);
-
-// close modal by click over modal window and ESC
-modal.addEventListener('click', (event) => {
-  if (event.target === modal) {
-  closeModal();
-}
-});
+  // close modal by click over modal window and ESC
+  modal.addEventListener("click", (event) => {
+    if (
+      event.target === modal ||
+      event.target.getAttribute("data-close") == ""
+    ) {
+      closeModal();
+    }
+  });
 
   document.addEventListener("keydown", (event) => {
     if (event.code === "Escape" && modal.classList.contains("show")) {
@@ -139,12 +142,12 @@ modal.addEventListener('click', (event) => {
       window.removeEventListener("scroll", showModalByScroll);
     }
   }
-}
 
-window.addEventListener('scroll', showModalByScroll);
-// Add Classes for cards
-class MenuCard {
-    constructor (src, alt, title, descr, price, parentSelector){
+  window.addEventListener("scroll", showModalByScroll);
+
+  // Add Classes for cards
+  class MenuCard {
+    constructor(src, alt, title, descr, price, parentSelector) {
       this.src = src;
       this.alt = alt;
       this.title = title;
@@ -213,20 +216,24 @@ class MenuCard {
     postData(item);
   });
 
-const message = {
-  loading : "load...",
-  succses : "We will call to you",
-  failure : "Somting going wrong"
-};
+  const message = {
+    loading: "img/form/spinner.svg",
+    succses: "We will call to you",
+    failure: "Somting going wrong",
+  };
 
-function postData(form) {
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const statusMessage = document.createElement("div");
-    statusMessage.classList.add("status");
-    statusMessage.textContent = message.loading;
-    form.append(statusMessage);
+  function postData(form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const statusMessage = document.createElement("img");
+      statusMessage.src = message.loading;
+      statusMessage.style.cssText = `
+      display: block;
+      margin: 0 auto;
+      `;
+
+      form.insertAdjacentElement("afterend", statusMessage);
 
       const request = new XMLHttpRequest();
       request.open("POST", "server.php");
@@ -234,19 +241,50 @@ function postData(form) {
       request.setRequestHeader("Content-type", "application/json");
       const formData = new FormData(form);
 
-    request.send(formData);
-
-    request.addEventListener("load", () => {
-      if (request.status === 200) {
-        console.log(request.response);
-        statusMessage.textContent = message.succses;
-      } else{
-        statusMessage.textContent = message.failure;
-      }
+      const object = {};
+      formData.forEach((value, key) => {
+        object[key] = value;
+      });
+      // transform to JSON format data from form
+      const json = JSON.stringify(object);
+      // send to server JSON
+      request.send(json);
+      //add listener to status response of form for output message for user
+      request.addEventListener("load", () => {
+        if (request.status === 200) {
+          console.log(request.response);
+          showThanksModal(message.succses);
+          form.reset();
+          statusMessage.remove();
+        } else {
+          showThanksModal(message.failure);
+        }
+      });
     });
+  }
 
-  });
-}
+  function showThanksModal(message) {
+    const prevModalDialog = document.querySelector(".modal__dialog");
+
+    prevModalDialog.classList.add("hide");
+    openModal();
+
+    const thanksModal = document.createElement("div");
+    thanksModal.classList.add("modal__dialog");
+    thanksModal.innerHTML = `
+      <div class ="modal__content">
+          <div class = "modal__close" data-close>&times;</div>
+          <div class = "modal__title">${message}</div>
+      </div>
+    `;
+    document.querySelector(".modal").append(thanksModal);
+    setTimeout(() => {
+      thanksModal.remove();
+      prevModalDialog.classList.add("show");
+      prevModalDialog.classList.remove("hide");
+      closeModal();
+    }, 4000);
+  }
 
   // END SCRIPT
 });
