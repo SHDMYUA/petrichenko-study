@@ -240,20 +240,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const statusMessage = document.createElement("img");
       statusMessage.src = message.loading;
       statusMessage.style.cssText = `
-      display: block;
-      margin: 0 auto;
-      `;
+          display: block;
+          margin: 0 auto;
+        `;
 
       form.insertAdjacentElement("afterend", statusMessage);
 
       const formData = new FormData(form);
 
-      // const request = new XMLHttpRequest();
-      // request.open("POST", "server.php");
-      // request.setRequestHeader("Content-type", "application/json");
-
       const object = {};
-      formData.forEach((value, key) => {
+
+      formData.forEach(function (key, value) {
         object[key] = value;
       });
 
@@ -299,11 +296,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const thanksModal = document.createElement("div");
     thanksModal.classList.add("modal__dialog");
     thanksModal.innerHTML = `
-      <div class ="modal__content">
-          <div class = "modal__close" data-close>&times;</div>
-          <div class = "modal__title">${message}</div>
-      </div>
-    `;
+        <div class ="modal__content">
+            <div class = "modal__close" data-close>&times;</div>
+            <div class = "modal__title">${message}</div>
+        </div>
+      `;
     document.querySelector(".modal").append(thanksModal);
     setTimeout(() => {
       thanksModal.remove();
