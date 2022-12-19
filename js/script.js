@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const forms = document.querySelectorAll("form");
 
   forms.forEach((item) => {
-    postData(item);
+    bindPostData(item);
   });
 
   const message = {
@@ -222,7 +222,18 @@ document.addEventListener("DOMContentLoaded", () => {
     failure: "Somting going wrong",
   };
 
-  function postData(form) {
+  const postData = async (url, data) => {
+    const res = await fetch(url, {
+      metod: "POST",
+      headers: {
+        "Content-type": "aplicaation/json",
+      },
+      body: data,
+    });
+    return await res.json();
+  };
+
+  function bindPostData(form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
@@ -246,46 +257,38 @@ document.addEventListener("DOMContentLoaded", () => {
         object[key] = value;
       });
 
-      // transform to JSON format data from form
-      const json = JSON.stringify(object);
-
-      fetch("server.php", {
-        metod: "POST",
-        headers: {
-          "Content-type": "aplicaation/json",
-        },
-        body: json, //we can replace directly const json to JSON.stringify(object) 
-      })
-      .then(data => data.text());
-        showThanksModal(message.succses);
-        form.reset();
-        statusMessage.remove();
-      })
-      .catch(()=> {
-        showThanksModal(message.failure);
-        // statusMessage.remove();
-      })
-      .finally(()=>{
-        form.reset();
-      })
+      postData("http://localhost:3000/requests", JSON.stringify(object))
+        .then((data) => {
+          console.log(data);
+          showThanksModal(message.succses);
+          // form.reset();
+          statusMessage.remove();
+        })
+        .catch(() => {
+          showThanksModal(message.failure);
+          // statusMessage.remove();
+        })
+        .finally(() => {
+          form.reset();
+        });
 
       // send to server JSON
       // request.send(json);
 
       //add listener to status response of form for output message for user
-  //     request.addEventListener("load", () => {
-  //       if (request.status === 200) {
-  //         console.log(request.response);
-  //         showThanksModal(message.succses);
-  //         form.reset();
-  //         statusMessage.remove();
-  //       } else {
-  //         showThanksModal(message.failure);
-  //         statusMessage.remove();
-  //       }
-  //     });
-  //   });
-  // }
+      //     request.addEventListener("load", () => {
+      //       if (request.status === 200) {
+      //         console.log(request.response);
+      //         showThanksModal(message.succses);
+      //         form.reset();
+      //         statusMessage.remove();
+      //       } else {
+      //         showThanksModal(message.failure);
+      //         statusMessage.remove();
+      //       }
+      //     });
+    });
+  }
 
   function showThanksModal(message) {
     const prevModalDialog = document.querySelector(".modal__dialog");
